@@ -1,4 +1,4 @@
-name: LibreLane GDS Build
+name: LibreLane GDS Build (CLI)
 
 on:
   push:
@@ -15,11 +15,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run LibreLane flow
-        uses: chipsalliance/LibreLane@v1
-        with:
-          design_dir: .
-          config_file: libre_config.json
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip python3-tk
+          sudo apt-get install -y verilator
+          pip install yowasp-yosys
+          pip install librelane
+          # Fix: Create yosys alias for LibreLane
+          sudo ln -s $(which yowasp-yosys) /usr/local/bin/yosys
+
+      - name: Run LibreLane
+        run: |
+          librelane libre_config.json
 
       - name: Upload GDS Output
         uses: actions/upload-artifact@v4
