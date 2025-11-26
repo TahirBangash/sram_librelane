@@ -1,4 +1,4 @@
-name: LibreLane GDS Build (CLI)
+name: LibreLane GDS Build
 
 on:
   push:
@@ -15,17 +15,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Python + Tkinter + Verilator + Modern Yosys
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3 python3-pip python3-tk
-          sudo apt-get install -y verilator
-          pip install yowasp-yosys
-          pip install librelane
-
-      - name: Run LibreLane
-        run: |
-          librelane libre_config.json
+      - name: Run LibreLane flow
+        uses: chipsalliance/LibreLane@v1
+        with:
+          design_dir: .
+          config_file: libre_config.json
 
       - name: Upload GDS Output
         uses: actions/upload-artifact@v4
