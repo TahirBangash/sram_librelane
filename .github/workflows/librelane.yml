@@ -1,4 +1,4 @@
-name: LibreLane GDS Build
+name: LibreLane GDS Build (CLI)
 
 on:
   push:
@@ -15,13 +15,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run LibreLane
-        uses: librelane/gh-action@v1
-        with:
-          design_dir: .
-          config_file: libre_config.json
+      - name: Install Python + LibreLane
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-pip
+          pip install librelane
 
-      - name: Upload GDS output
+      - name: Run LibreLane
+        run: |
+          # Runs the flow using your JSON config
+          librelane libre_config.json
+
+      - name: Upload GDS Output
         uses: actions/upload-artifact@v4
         with:
           name: gds-output
