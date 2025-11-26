@@ -13,18 +13,17 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Run LibreLane flow
-        uses: chipsalliance/LibreLane@v1
+      - name: Run LibreLane
+        uses: librelane/gh-action@v1
         with:
           design_dir: .
           config_file: libre_config.json
 
-      - name: Upload GDS
-        uses: actions/upload-artifact@v3
+      - name: Upload GDS output
+        uses: actions/upload-artifact@v4
         with:
           name: gds-output
           path: |
             runs/*/results/gds/*.gds
-
