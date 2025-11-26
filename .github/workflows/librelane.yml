@@ -15,10 +15,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Python + Tkinter + LibreLane
+      - name: Install System Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y python3 python3-pip python3-tk
+          sudo apt-get install -y verilator
+          sudo apt-get install -y yosys
+
+      - name: Install LibreLane
+        run: |
           pip install librelane
 
       - name: Run LibreLane
