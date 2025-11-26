@@ -1,4 +1,4 @@
-name: LibreLane GDS Build (CLI)
+name: LibreLane GDS Build (Docker)
 
 on:
   push:
@@ -11,29 +11,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    container:
+      image: ghcr.io/librelane/librelane:latest
+
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Install OSS CAD Suite (modern ASIC tools)
-        run: |
-          wget https://github.com/YosysHQ/oss-cad-suite-build/releases/download/2024-09-03/oss-cad-suite-linux-x64-20240903.tgz
-          tar -xf oss-cad-suite-linux-x64-20240903.tgz
-
-          # Force this exact Yosys/OpenROAD/Magic etc.
-          export PATH="$(pwd)/oss-cad-suite/bin:$PATH"
-          echo "PATH=$(pwd)/oss-cad-suite/bin:$PATH" >> $GITHUB_ENV
-
-      - name: Install Python + Tkinter + LibreLane
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3 python3-pip python3-tk
-          pip install librelane
-
-      - name: Verify Yosys Version Being Used
-        run: |
-          which yosys
-          yosys -V      # Must print OSS CAD Suite version, NOT Ubuntu's
 
       - name: Run LibreLane
         run: |
@@ -43,5 +26,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: gds-output
-          path: |
-            runs/*/results/gds/*.gds
+          path: runs/*/results/gds/*.gds
