@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: ghcr.io/librelane/librelane:latest
+      image: ghcr.io/chipsalliance/librelane:latest
 
     steps:
       - name: Checkout Repository
