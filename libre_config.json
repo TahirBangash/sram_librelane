@@ -1,5 +1,9 @@
 {
   "DESIGN_NAME": "column_decoder",
-  "VERILOG_FILES": "verilog/*.v"
+  "VERILOG_FILES": [
+    "verilog/column_decoder.v",
+    "verilog/sram_utils.v"
+  ]
 }
+
 
