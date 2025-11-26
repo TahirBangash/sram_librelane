@@ -1,0 +1,30 @@
+name: LibreLane GDS Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run LibreLane flow
+        uses: chipsalliance/LibreLane@v1
+        with:
+          design_dir: .
+          config_file: libre_config.json
+
+      - name: Upload GDS
+        uses: actions/upload-artifact@v3
+        with:
+          name: gds-output
+          path: |
+            runs/*/results/gds/*.gds
+
